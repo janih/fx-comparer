@@ -1,9 +1,9 @@
-package com.loop81.fxcompare.asserts;
+package com.loop81.fxcomparer.asserts;
 
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.Assertions;
 
-import com.loop81.fxcompare.comparer.ComparisonResult;
+import com.loop81.fxcomparer.comparer.ComparisonResult;
 
 public class ComparisonResultAssert extends AbstractAssert<ComparisonResultAssert, ComparisonResult> {
 

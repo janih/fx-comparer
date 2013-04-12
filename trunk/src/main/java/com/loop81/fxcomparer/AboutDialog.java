@@ -1,4 +1,4 @@
-package com.loop81.fxcompare;
+package com.loop81.fxcomparer;
 
 /*
  * Copyright (c) 2013 http://www.loop81.com
@@ -14,7 +14,7 @@ import javafx.scene.control.TextArea;
 
 import org.apache.commons.io.FileUtils;
 
-import com.loop81.fxcompare.utils.AbstractDialogWindow;
+import com.loop81.fxcomparer.utils.AbstractDialogWindow;
 
 /**
  * The about dialog will show a dialog with some build information and the license for the applicaiton. The information

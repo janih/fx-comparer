@@ -1,4 +1,4 @@
-package com.loop81.fxcompare.comparer;
+package com.loop81.fxcomparer.comparer;
 
 import java.io.File;
 

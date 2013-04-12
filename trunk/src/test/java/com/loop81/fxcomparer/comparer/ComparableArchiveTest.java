@@ -1,4 +1,4 @@
-package com.loop81.fxcompare.comparer;
+package com.loop81.fxcomparer.comparer;
 
 import java.io.File;
 import java.util.List;
@@ -8,10 +8,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.loop81.fxcompare.TestHelper;
-import com.loop81.fxcompare.asserts.ComparableArchiveAssert;
-import com.loop81.fxcompare.asserts.ComparableEntryAssert;
-import com.loop81.fxcompare.comparer.ComparableArchive.ComparableEntry;
+import com.loop81.fxcomparer.TestHelper;
+import com.loop81.fxcomparer.asserts.ComparableArchiveAssert;
+import com.loop81.fxcomparer.asserts.ComparableEntryAssert;
+import com.loop81.fxcomparer.comparer.ArchiveException;
+import com.loop81.fxcomparer.comparer.ComparableArchive;
+import com.loop81.fxcomparer.comparer.ComparableArchive.ComparableEntry;
 
 public class ComparableArchiveTest {
 	

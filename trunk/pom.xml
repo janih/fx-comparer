@@ -13,12 +13,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.loop81</groupId>
-  <artifactId>fxcompare</artifactId>
+  <artifactId>fxcomparer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>fxcompare</name>
-  <url>http://maven.apache.org</url>
+  <name>FXComparer</name>
+  <url>http://www.loop81.com</url>
   
   <organization>
     <name>loop81</name>
