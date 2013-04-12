@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+  Copyright (c) 2013 http://www.loop81.com
+
+  See the file license.txt for copying permission.
+-->
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox id="VBox" alignment="CENTER" spacing="5.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.loop81.fxcompare.FXCompareController">
+  <children>
+    <MenuBar>
+      <menus>
+        <Menu mnemonicParsing="false" text="%application.title">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#onMenuClear" text="%menu.clear" />
+            <MenuItem mnemonicParsing="false" onAction="#onMenuAbout" text="%menu.about" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#onMenuExit" text="%menu.exit" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <BorderPane prefHeight="600.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+      <bottom>
+        <AnchorPane minHeight="22.0" prefHeight="22.0" prefWidth="600.0" style="-fx-background-color:linear-gradient(white, #DDDDDD);">
+          <children>
+            <Label fx:id="labelVersion" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutY="3.0" prefWidth="142.0" textAlignment="RIGHT" AnchorPane.rightAnchor="7.0">
+              <textFill>
+                <Color blue="0.375" green="0.375" red="0.375" fx:id="x1" />
+              </textFill>
+            </Label>
+          </children>
+        </AnchorPane>
+      </bottom>
+      <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+          <children>
+            <TableView fx:id="compareTable" prefHeight="272.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="31.0">
+              <columns>
+                <TableColumn editable="false" prefWidth="75.0" text="%result.table.entry" fx:id="columnName" />
+                <TableColumn editable="false" prefWidth="75.0" text="%result.table.state" fx:id="columnState" />
+                <TableColumn prefWidth="75.0" text="%result.table.diff" fx:id="columnChange" />
+              </columns>
+            </TableView>
+            <Label fx:id="labelCompareResult" layoutY="6.0" prefWidth="572.0" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+          </children>
+        </AnchorPane>
+      </center>
+      <top>
+        <GridPane prefHeight="75.0" prefWidth="600.0" style="-fx-background-color:linear-gradient(white,#DDDDDD);&#10;-fx-border-color: #919191;&#10;-fx-border-width: 0 0 1px 0;&#10;">
+          <children>
+            <AnchorPane fx:id="anchorPaneDropFile1" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <children>
+                <Button layoutY="27.0" mnemonicParsing="false" onAction="#onSelectFile1" prefWidth="71.0" text="%file.button.select" AnchorPane.rightAnchor="29.0" />
+                <TextField id="file1InputField" fx:id="textFieldArchive1" disable="true" layoutY="26.0" prefWidth="266.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="115.0" />
+                <Label layoutX="19.0" layoutY="6.0" text="%file.title.archive1" />
+                <Label id="file1infoLabel" fx:id="labelArchive1Info" layoutX="20.0" layoutY="48.0">
+                  <font>
+                    <Font size="10.0" fx:id="x2" />
+                  </font>
+                  <textFill>
+                    <Color blue="0.500" green="0.500" red="0.500" fx:id="x3" />
+                  </textFill>
+                </Label>
+              </children>
+              <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </padding>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorPaneDropFile2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+              <children>
+                <Button layoutY="27.0" mnemonicParsing="false" onAction="#onSelectFile2" prefWidth="71.0" text="%file.button.select" AnchorPane.rightAnchor="29.0" />
+                <TextField fx:id="textFieldArchive2" disable="true" layoutY="26.0" prefWidth="266.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="120.0" />
+                <Label layoutX="19.0" layoutY="6.0" text="%file.title.archive2" />
+                <Label id="labelArchive1Info" fx:id="labelArchive2Info" font="$x2" layoutX="20.0" layoutY="48.0" textFill="$x3" />
+              </children>
+              <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </padding>
+            </AnchorPane>
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </top>
+    </BorderPane>
+  </children>
+</VBox>

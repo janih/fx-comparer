@@ -1,0 +1,28 @@
+/*
+ * Copyright (c) 2013 http://www.loop81.com
+ *
+ * See the file license.txt for copying permission.
+ */
+
+/* com/sun/javafx/scene/control/skin/caspian/caspian.css */
+
+.button:focused {
+  -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+  -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+  -fx-background-radius: 5, 5, 4, 3;
+}
+
+.table-view:focused {
+  -fx-background-color: -fx-box-border, -fx-control-inner-background;
+  -fx-background-insets: 0,1;
+  -fx-padding: 1; /* 0.083333em; */
+  -fx-table-header-border-color: #959595;
+  -fx-table-cell-border-color: #bbbbbb;
+}
+
+.text-area:focused {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-text-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 3, 2, 2;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+}

@@ -1,0 +1,4 @@
+Build information
+Version: @VERSION
+Date: @BUILD_DATE
+
