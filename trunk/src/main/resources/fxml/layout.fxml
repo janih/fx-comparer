@@ -18,7 +18,7 @@
   <children>
     <MenuBar>
       <menus>
-        <Menu mnemonicParsing="false" text="%application.title">
+        <Menu mnemonicParsing="false" text="%menu.title">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#onMenuClear" text="%menu.clear" />
             <MenuItem mnemonicParsing="false" onAction="#onMenuAbout" text="%menu.about" />

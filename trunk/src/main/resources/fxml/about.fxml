@@ -15,7 +15,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(white, #DDDDDD)" xmlns:fx="http://javafx.com/fxml">
   <children>
-    <Label layoutX="234.0" layoutY="14.0" text="FXComparer">
+    <Label layoutX="234.0" layoutY="14.0" text="%application.title">
       <font>
         <Font size="24.0" />
       </font>
