@@ -14,7 +14,7 @@
 
   <groupId>com.loop81</groupId>
   <artifactId>fxcomparer</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>FXComparer</name>
@@ -87,7 +87,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>1.5</version>
         <configuration>
-            <mainClass>com.loop81.fxcompare.FXCompare</mainClass>
+            <mainClass>com.loop81.fxcomparer.FXComparer</mainClass>
         </configuration>
       </plugin>
       
