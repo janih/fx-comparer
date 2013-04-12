@@ -1,4 +1,4 @@
-package com.loop81.fxcompare.utils;
+package com.loop81.fxcomparer.utils;
 
 /*
  * Copyright (c) 2013 http://www.loop81.com
@@ -15,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import com.loop81.fxcompare.FXCompare;
+import com.loop81.fxcomparer.FXComparer;
 
 /**
  * The base for all dialogs within the application. When the dialog is created a basic stage centered in
@@ -30,15 +30,15 @@ public abstract class AbstractDialogWindow {
 
 	protected AbstractDialogWindow(int width, int height) {
 		dialogStage = new Stage();
-		dialogStage.initOwner(FXCompare.getMainStage());
+		dialogStage.initOwner(FXComparer.getMainStage());
 		dialogStage.initModality(Modality.APPLICATION_MODAL);
 		dialogStage.initStyle(StageStyle.UTILITY);
 		dialogStage.setResizable(false);
 		dialogStage.setIconified(false);
 		
 		// Set the location of the dialog, using known values. The dialog do not have any dimensions at this stage.
-		dialogStage.setX(FXCompare.getMainStage().getX() + FXCompare.getMainStage().getWidth() / 2 - width / 2);
-		dialogStage.setY(FXCompare.getMainStage().getY() + FXCompare.getMainStage().getHeight() / 2 - height / 2);
+		dialogStage.setX(FXComparer.getMainStage().getX() + FXComparer.getMainStage().getWidth() / 2 - width / 2);
+		dialogStage.setY(FXComparer.getMainStage().getY() + FXComparer.getMainStage().getHeight() / 2 - height / 2);
 		
 		// Load the nodes found within the FXML into the dialogs stage and apply the application styles.
 		try {

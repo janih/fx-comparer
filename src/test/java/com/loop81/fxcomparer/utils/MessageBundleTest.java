@@ -1,4 +1,4 @@
-package com.loop81.fxcompare.utils;
+package com.loop81.fxcomparer.utils;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import org.fest.assertions.api.Assertions;
 import org.junit.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.loop81.fxcomparer.utils.MessageBundle;
 
 /**
  * Test for {@link MessageBundle}.

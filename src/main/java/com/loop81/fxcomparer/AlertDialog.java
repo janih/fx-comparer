@@ -1,4 +1,4 @@
-package com.loop81.fxcompare;
+package com.loop81.fxcomparer;
 
 /*
  * Copyright (c) 2013 http://www.loop81.com
@@ -11,8 +11,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import com.loop81.fxcompare.utils.AbstractDialogWindow;
-import com.loop81.fxcompare.utils.MessageBundle;
+import com.loop81.fxcomparer.utils.AbstractDialogWindow;
+import com.loop81.fxcomparer.utils.MessageBundle;
 
 /**
  * The alert dialog will create a pop-up window with a title telling the user that something went wrong. In the dialog

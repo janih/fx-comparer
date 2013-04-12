@@ -1,4 +1,4 @@
-package com.loop81.fxcompare.utils;
+package com.loop81.fxcomparer.utils;
 
 /*
  * Copyright (c) 2013 http://www.loop81.com

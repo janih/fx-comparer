@@ -1,4 +1,4 @@
-package com.loop81.fxcompare.comparer;
+package com.loop81.fxcomparer.comparer;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import com.loop81.fxcompare.comparer.ArchiveException.ExceptionType;
+import com.loop81.fxcomparer.comparer.ArchiveException.ExceptionType;
 
 /**
  * A {@link ComparableArchive} is the representation of a valid archive containing information about the archive 

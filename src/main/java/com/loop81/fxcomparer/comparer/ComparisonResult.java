@@ -1,11 +1,11 @@
-package com.loop81.fxcompare.comparer;
+package com.loop81.fxcomparer.comparer;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.loop81.fxcompare.comparer.ComparableArchive.ComparableEntry;
-import com.loop81.fxcompare.comparer.ComparisonResult.ComparisonEntry.ChangeState;
+import com.loop81.fxcomparer.comparer.ComparableArchive.ComparableEntry;
+import com.loop81.fxcomparer.comparer.ComparisonResult.ComparisonEntry.ChangeState;
 
 public class ComparisonResult {
 

@@ -1,4 +1,4 @@
-package com.loop81.fxcompare;
+package com.loop81.fxcomparer;
 
 /*
  * Copyright (c) 2013 http://www.loop81.com
@@ -31,21 +31,21 @@ import javafx.util.Callback;
 
 import org.apache.commons.io.FileUtils;
 
-import com.loop81.fxcompare.comparer.ArchiveException;
-import com.loop81.fxcompare.comparer.ComparableArchive;
-import com.loop81.fxcompare.comparer.Comparer;
-import com.loop81.fxcompare.comparer.ComparisonResult;
-import com.loop81.fxcompare.comparer.ComparisonResult.ComparisonEntry;
-import com.loop81.fxcompare.utils.MessageBundle;
-import com.loop81.fxcompare.utils.VersionProvider;
+import com.loop81.fxcomparer.comparer.ArchiveException;
+import com.loop81.fxcomparer.comparer.ComparableArchive;
+import com.loop81.fxcomparer.comparer.Comparer;
+import com.loop81.fxcomparer.comparer.ComparisonResult;
+import com.loop81.fxcomparer.comparer.ComparisonResult.ComparisonEntry;
+import com.loop81.fxcomparer.utils.MessageBundle;
+import com.loop81.fxcomparer.utils.VersionProvider;
 
 /**
- * The {@link FXCompareController} is defined as the controller in the FXML <i>/src/main/resources/fxml/layout.fxml</i> 
+ * The {@link FXComparerController} is defined as the controller in the FXML <i>/src/main/resources/fxml/layout.fxml</i> 
  * and control the layout of the application and all interaction with the users. 
  * 
  * @author Allitico
  */
-public class FXCompareController {
+public class FXComparerController {
 	
 	@FXML 
 	private AnchorPane anchorPaneMain;

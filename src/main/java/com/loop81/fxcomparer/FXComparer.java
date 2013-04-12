@@ -1,4 +1,4 @@
-package com.loop81.fxcompare;
+package com.loop81.fxcomparer;
 
 /*
  * Copyright (c) 2013 http://www.loop81.com
@@ -8,7 +8,7 @@ package com.loop81.fxcompare;
 
 import java.util.ResourceBundle;
 
-import com.loop81.fxcompare.utils.MessageBundle;
+import com.loop81.fxcomparer.utils.MessageBundle;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +18,11 @@ import javafx.stage.Stage;
 
 /**
  * Main class for the whole application. Will setup the {@link MessageBundle} and initiate the application by loading
- * the FXML which is controlled by {@link FXCompareController}.
+ * the FXML which is controlled by {@link FXComparerController}.
  * 
  * @author Allitico
  */
-public class FXCompare extends Application {
+public class FXComparer extends Application {
 	
 	public static final String RESOURCE_TEXTS = "text.fx_compare"; 
 
@@ -30,7 +30,7 @@ public class FXCompare extends Application {
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		FXCompare.mainStage = stage;
+		FXComparer.mainStage = stage;
 		
 		// Load the message bundle.
 		ResourceBundle resourceBundle = ResourceBundle.getBundle(RESOURCE_TEXTS);

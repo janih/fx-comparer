@@ -1,4 +1,4 @@
-package com.loop81.fxcompare;
+package com.loop81.fxcomparer;
 
 import java.io.File;
 import java.net.URISyntaxException;
