@@ -1,0 +1,129 @@
+<!-- 
+ Copyright (c) 2013 http://www.loop81.com
+
+ See the file license.txt for copying permission.
+-->
+
+<!-- 
+  To build a executable jar: mvn clean package jfx:build-jar
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.loop81</groupId>
+  <artifactId>fxcompare</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>fxcompare</name>
+  <url>http://maven.apache.org</url>
+  
+  <organization>
+    <name>loop81</name>
+  </organization>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <dependecy.javafx.rj.path>${env.JAVA_HOME}\jre\lib\jfxrt.jar</dependecy.javafx.rj.path>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>javafx-runtime</artifactId>
+      <version>1.7.u7</version>
+      <scope>system</scope>
+      <systemPath>${dependecy.javafx.rj.path}</systemPath>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+    </dependency>
+    
+  <!-- Dependency used for test -->
+    
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.8</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Used for creation of custom assertions. -->
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert-core</artifactId>
+      <version>2.0M7</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Needed by fest-assert-core. -->    
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-util</artifactId>
+      <version>1.2.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>  
+      <plugin>  
+        <groupId>org.apache.maven.plugins</groupId>  
+        <artifactId>maven-compiler-plugin</artifactId>  
+        <configuration>  
+          <source>1.7</source>  
+          <target>1.7</target>  
+        </configuration>  
+      </plugin>  
+      
+      <!-- Build-plugin for creation of a runnable JavaFX jar. Executed by mvn jfx:build-jar. -->
+      <plugin>
+        <groupId>com.zenjava</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>1.5</version>
+        <configuration>
+            <mainClass>com.loop81.fxcompare.FXCompare</mainClass>
+        </configuration>
+      </plugin>
+      
+      <!-- Replace the tokens in the version.properties file with real values. Require that we run mvn:package. -->
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.0</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <filesToInclude>target/classes/version.properties, target/classes/about.txt</filesToInclude>
+          <replacements>
+            <replacement>
+              <token>@NAME</token>
+              <value>${project.name}</value>
+            </replacement>
+          
+            <replacement>
+              <token>@VERSION</token>
+              <value>${project.version}</value>
+            </replacement>
+            
+            <replacement>
+              <token>@BUILD_DATE</token>
+              <value>${maven.build.timestamp}</value>
+            </replacement>
+          </replacements>
+        </configuration>
+      </plugin>
+    </plugins>  
+  </build>
+</project>
