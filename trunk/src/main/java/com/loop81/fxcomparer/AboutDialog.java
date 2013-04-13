@@ -6,13 +6,11 @@ package com.loop81.fxcomparer;
  * See the file license.txt for copying permission.
  */
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javafx.scene.control.TextArea;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import com.loop81.fxcomparer.utils.AbstractDialogWindow;
 
@@ -34,12 +32,10 @@ public class AboutDialog extends AbstractDialogWindow {
 		super(DIALOG_WIDTH, DIALOG_HEIGHT);
 		
 		try {
-			String aboutText = FileUtils.readFileToString(
-					new File(getClass().getResource("/about.txt").toURI()), "UTF-8");
-			aboutText += FileUtils.readFileToString(
-					new File(getClass().getResource("/license.txt").toURI()), "UTF-8");
+			String aboutText = IOUtils.toString(getClass().getResourceAsStream("/about.txt"), "UTF-8"); 
+			aboutText += IOUtils.toString(getClass().getResourceAsStream("/license.txt"), "UTF-8");  
 			((TextArea) dialogStage.getScene().lookup(".text-area")).setText(aboutText);
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
 			// Will never happen since the about.txt and license.txt should always be there.
 		}
 	}
