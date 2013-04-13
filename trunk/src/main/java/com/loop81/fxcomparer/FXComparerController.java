@@ -138,17 +138,8 @@ public class FXComparerController {
 					return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
 							MessageBundle.getString("general.not_avalible"), 0));
 				} else {
-					if (sizeChange < FileUtils.ONE_KB && sizeChange > -1 * FileUtils.ONE_KB) {
-						return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
-								(sizeChange > 0 ? "+" : "") + FileUtils.byteCountToDisplaySize(sizeChange), 
-								sizeChange));
-					} else {
-						return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
-								(sizeChange > 0 ? "+" : "-") 
-										+ FileUtils.byteCountToDisplaySize(Math.abs(sizeChange)) 
-										+ " (" + sizeChange + " " + MessageBundle.getString("general.bytes") + ")", 
-								sizeChange));
-					}
+					return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
+							convertdifferenceToReadableString(sizeChange), sizeChange));
 				}
 			}
 		});
@@ -309,8 +300,8 @@ public class FXComparerController {
 					labelCompareResult.setText(MessageBundle.getString("result.different", 
 							FileUtils.byteCountToDisplaySize(archive1.getSize()), 
 							FileUtils.byteCountToDisplaySize(archive2.getSize()),
-							(diff > 0 ? "+" : "") + diff));
-				}
+							convertdifferenceToReadableString(diff)));
+				} 
 				
 				compareTable.setItems(FXCollections.observableList(result.getEntries()));
 			}
@@ -321,6 +312,16 @@ public class FXComparerController {
 				getException().printStackTrace();
 			}
 		}).start();
+	}
+	
+	/** Convert the given difference to a more readable string using {@link FileUtils#byteCountToDisplaySize(long)}. */
+	private String convertdifferenceToReadableString(long difference) {
+		if (difference < FileUtils.ONE_KB && difference > -1 * FileUtils.ONE_KB) {
+			return (difference > 0 ? "+" : "") + FileUtils.byteCountToDisplaySize(difference);
+		} else {
+			return (difference > 0 ? "+" : "-") + FileUtils.byteCountToDisplaySize(Math.abs(difference)) 
+							+ " (" + difference + " " + MessageBundle.getString("general.bytes") + ")";
+		}
 	}
 	
 	/**
