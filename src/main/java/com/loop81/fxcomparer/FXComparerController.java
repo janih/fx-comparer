@@ -6,6 +6,8 @@ package com.loop81.fxcomparer;
  * See the file license.txt for copying permission.
  */
 
+import java.util.Comparator;
+
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -75,7 +77,7 @@ public class FXComparerController {
 	private TableColumn<ComparisonEntry, String> columnState;
 	
 	@FXML
-	private TableColumn<ComparisonEntry, String> columnChange;
+	private TableColumn<ComparisonEntry, ChangeWrapper> columnChange;
 	
 	@FXML
 	private Label labelCompareResult;
@@ -125,25 +127,35 @@ public class FXComparerController {
 		});
 		
 		columnChange.prefWidthProperty().bind(compareTable.widthProperty().divide(5));
-		columnChange.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<ComparisonEntry, String>, ObservableValue<String>>() {
+		columnChange.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ComparisonEntry, 
+				ChangeWrapper>, ObservableValue<ChangeWrapper>>() {
 			@Override
-			public ObservableValue<String> call(CellDataFeatures<ComparisonEntry, String> cell) {
+			public ObservableValue<ChangeWrapper> call(CellDataFeatures<ComparisonEntry, ChangeWrapper> cell) {
 				long sizeChange = cell.getValue().getSizeChange();
 				if (sizeChange == 0) {
-					return new SimpleStringProperty();
+					return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper());
 				} else if (sizeChange == Long.MIN_VALUE) { 
-					return new SimpleStringProperty(MessageBundle.getString("general.not_avalible"));
+					return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
+							MessageBundle.getString("general.not_avalible"), 0));
 				} else {
-					if (sizeChange < FileUtils.ONE_KB) {
-						return new SimpleStringProperty((sizeChange > 0 ? "+" : "") 
-								+ FileUtils.byteCountToDisplaySize(sizeChange));
+					if (sizeChange < FileUtils.ONE_KB && sizeChange > -1 * FileUtils.ONE_KB) {
+						return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
+								(sizeChange > 0 ? "+" : "") + FileUtils.byteCountToDisplaySize(sizeChange), 
+								sizeChange));
 					} else {
-						return new SimpleStringProperty((sizeChange > 0 ? "+" : "") 
-								+ FileUtils.byteCountToDisplaySize(sizeChange) 
-								+ " (" + sizeChange + " " + MessageBundle.getString("general.bytes") + ")");
+						return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
+								(sizeChange > 0 ? "+" : "-") 
+										+ FileUtils.byteCountToDisplaySize(Math.abs(sizeChange)) 
+										+ " (" + sizeChange + " " + MessageBundle.getString("general.bytes") + ")", 
+								sizeChange));
 					}
 				}
+			}
+		});
+		columnChange.setComparator(new Comparator<ChangeWrapper>() {
+			@Override
+			public int compare(ChangeWrapper wrapper1, ChangeWrapper wrapper2) {
+				return wrapper1.compareTo(wrapper2);
 			}
 		});
 	}
@@ -309,5 +321,36 @@ public class FXComparerController {
 				getException().printStackTrace();
 			}
 		}).start();
+	}
+	
+	/**
+	 * Wrapper used to be able to present the difference with the files and support sorting on the acutal 
+	 * byte difference.
+	 * 
+	 * @author Allitico
+	 */
+	private class ChangeWrapper implements Comparable<ChangeWrapper> {
+		private final String sizeText;
+		private final long sizeChange;
+
+		public ChangeWrapper() {
+			sizeText = "";
+			sizeChange = Long.MIN_VALUE;
+		}
+		
+		public ChangeWrapper(String sizeText, long sizeChange) {
+			this.sizeText = sizeText;
+			this.sizeChange = sizeChange;
+		}
+		
+		@Override
+		public String toString() {
+			return sizeText;
+		}
+
+		@Override
+		public int compareTo(ChangeWrapper otherWraper) {
+			return Long.compare(otherWraper.sizeChange, sizeChange);
+		}
 	}
 }
