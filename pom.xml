@@ -26,7 +26,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <dependecy.javafx.rj.path>${env.JAVA_HOME}\jre\lib\jfxrt.jar</dependecy.javafx.rj.path>
+    <dependecy.javafx.rj.path>${java.home}/lib/ext/jfxrt.jar</dependecy.javafx.rj.path>
   </properties>
 
   <dependencies>
@@ -81,6 +81,35 @@
         </configuration>  
       </plugin>  
       
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.loop81.fxcomparer.FXComparer</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Build-plugin for creation of a runnable JavaFX jar. Executed by mvn jfx:build-jar. -->
       <plugin>
         <groupId>com.zenjava</groupId>
