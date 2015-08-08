@@ -12,6 +12,7 @@ public class Comparer {
 	private static final String FILE_ZIP = ".zip";
 	private static final String FILE_JAR = ".jar";
 	private static final String FILE_WAR = ".war";
+	private static final String FILE_EAR = ".ear";
 	
 	/**
 	 * 
@@ -74,6 +75,6 @@ public class Comparer {
 	/** Control if the given file is a supported file to be used to compare with. */
 	public boolean isFileSupported(File file) {
 		return file.getName().endsWith(FILE_ZIP) || file.getName().endsWith(FILE_WAR) 
-				|| file.getName().endsWith(FILE_JAR);
+				|| file.getName().endsWith(FILE_JAR) || file.getName().endsWith(FILE_EAR);
 	}
 }	

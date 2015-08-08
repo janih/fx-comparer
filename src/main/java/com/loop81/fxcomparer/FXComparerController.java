@@ -269,7 +269,7 @@ public class FXComparerController {
 		try {
 			FileChooser fileChooser = new FileChooser();
 			ExtensionFilter filter = new ExtensionFilter(
-					MessageBundle.getString("file.selector.text"), "*.zip", "*.jar", "*.war");
+					MessageBundle.getString("file.selector.text"), "*.zip", "*.jar", "*.war", "*.ear");
 			fileChooser.getExtensionFilters().add(filter);
 			return new ComparableArchive(fileChooser.showOpenDialog(window));
 		} catch (ArchiveException e) {
