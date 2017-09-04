@@ -8,7 +8,7 @@
 
 	<groupId>com.loop81</groupId>
 	<artifactId>fxcomparer</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>FXComparer</name>
@@ -21,6 +21,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<dependecy.javafx.rj.path>${java.home}/lib/ext/jfxrt.jar</dependecy.javafx.rj.path>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>EEE, d MMM yyyy HH:mm:ss Z</maven.build.timestamp.format>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -35,13 +39,13 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
+			<version>2.5</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
-			<version>8.40.9</version>
+			<version>8.40.13</version>
 		</dependency>
 
 		<!-- Dependency used for test -->
@@ -49,7 +53,7 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.8</version>
+			<version>6.11</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -57,7 +61,7 @@
 		<dependency>
 			<groupId>org.easytesting</groupId>
 			<artifactId>fest-assert-core</artifactId>
-			<version>2.0M7</version>
+			<version>2.0M10</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -65,16 +69,33 @@
 		<dependency>
 			<groupId>org.easytesting</groupId>
 			<artifactId>fest-util</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources/</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.2</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -84,6 +105,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -96,15 +118,22 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>package</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.loop81.fxcomparer.FXComparer</mainClass>
+								</transformer>
+							</transformers>
 						</configuration>
 					</execution>
 				</executions>
@@ -115,47 +144,12 @@
 			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>1.5</version>
+				<version>8.8.3</version>
 				<configuration>
 					<mainClass>com.loop81.fxcomparer.FXComparer</mainClass>
 				</configuration>
 			</plugin>
 
-			<!-- Replace the tokens in the version.properties file with real values. 
-				Require that we run mvn:package. -->
-			<plugin>
-				<groupId>com.google.code.maven-replacer-plugin</groupId>
-				<artifactId>replacer</artifactId>
-				<version>1.5.0</version>
-				<executions>
-					<execution>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>replace</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<filesToInclude>target/classes/version.properties,
-						target/classes/about.txt</filesToInclude>
-					<replacements>
-						<replacement>
-							<token>@NAME</token>
-							<value>${project.name}</value>
-						</replacement>
-
-						<replacement>
-							<token>@VERSION</token>
-							<value>${project.version}</value>
-						</replacement>
-
-						<replacement>
-							<token>@BUILD_DATE</token>
-							<value>${maven.build.timestamp}</value>
-						</replacement>
-					</replacements>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 </project>

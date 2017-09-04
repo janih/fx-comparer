@@ -41,7 +41,7 @@ public class ComparableArchiveTest {
 	
 	@Test
 	public void shouldBePossibleToAccessBasicData() {
-		ComparableArchiveAssert.assertThat(comparableArchive).hasByteSize(439).pathContains("\\file.zip");
+		ComparableArchiveAssert.assertThat(comparableArchive).hasByteSize(439).pathContains("file.zip");
 	}
 	
 	@DataProvider
