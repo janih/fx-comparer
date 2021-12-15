@@ -268,6 +268,7 @@ public class FXComparerController {
 	private ComparableArchive selectFile(Window window) {
 		try {
 			FileChooser fileChooser = new FileChooser();
+			fileChooser.setInitialFileName(System.getProperty("user.dir"));
 			ExtensionFilter filter = new ExtensionFilter(
 					MessageBundle.getString("file.selector.text"), "*.zip", "*.jar", "*.war", "*.ear");
 			fileChooser.getExtensionFilters().add(filter);

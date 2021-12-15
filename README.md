@@ -10,3 +10,9 @@ There are some blog-post connected to FXComparer which describes some steps of t
 2. [Building the UI using FXML and JavaFX Sceen Builder.](http://www.loop81.com/2013/04/project-fxcomparer-part-2-building-ui.html)
 3. [Handling input and showing results using a TableView.](http://www.loop81.com/2013/04/project-fxcomparer-part-3-handling.html)
 4. [Packaging the application.](http://www.loop81.com/2013/04/project-fxcomparer-part-5-packaging.html)
+
+## How to compile and run
+
+    mvn compile javafx:run
+
+Tested with AdoptOpenJDK-11.0.11+9.
