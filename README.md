@@ -15,4 +15,4 @@ There are some blog-post connected to FXComparer which describes some steps of t
 
     mvn compile javafx:run
 
-Tested with AdoptOpenJDK-11.0.11+9.
+Tested with openjdk 21.0.5 2024-10-15 LTS.

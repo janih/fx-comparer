@@ -65,3 +65,5 @@ local.properties
 
 # Intellij IDEA
 .idea/*
+
+.DS_Store
