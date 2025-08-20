@@ -1,18 +1,60 @@
 # FXComparer
 
-(Automatically exported from code.google.com/p/fx-comparer)
+![Screenshot of FXComparer application](screenshot.png)
 
-FXComparer is an application which lets the user select two archives and compare them either by selecting the archive using a "file-chooser" or by "drag & drop" a file into the application. The result of the compare is presented in an easy to read table and instant feedback of the differences in the archives are presented for the users.
+FXComparer is a JavaFX desktop application that allows users to compare the contents of two archive files (such as ZIP, JAR, or other supported formats). The application provides a user-friendly interface to visualize differences between archives through intuitive file comparison.
 
-There are some blog-post connected to FXComparer which describes some steps of the development of the application.
+## Features
 
-1. [Defining the project, setup using Eclipse and Maven.](http://www.loop81.com/2013/04/project-fxcomparer-part-1-defining.html)
-2. [Building the UI using FXML and JavaFX Sceen Builder.](http://www.loop81.com/2013/04/project-fxcomparer-part-2-building-ui.html)
-3. [Handling input and showing results using a TableView.](http://www.loop81.com/2013/04/project-fxcomparer-part-3-handling.html)
-4. [Packaging the application.](http://www.loop81.com/2013/04/project-fxcomparer-part-5-packaging.html)
+- **Dual Archive Selection**: Load two archive files either through file selection dialogs or by drag-and-drop functionality
+- **Visual Comparison**: View differences in a clear, tabular format with color-coded status indicators
+- **Multiple Views**: See file entries categorized as:
+  - New (files present only in the second archive)
+  - Removed (files present only in the first archive)
+  - Modified (files present in both archives but with different content)
+  - Same (files present in both archives with identical content)
+- **Detailed Information**: View file size differences and comprehensive archive statistics
+- **User-Friendly Interface**: Intuitive JavaFX UI with drag-and-drop support for easy file loading
+
+## Supported Archive Formats
+
+FXComparer supports various archive formats through Apache Commons Compress, including but not limited to:
+- ZIP/JAR files
+- TAR archives
+- Other common compression formats
 
 ## How to compile and run
 
-    mvn compile javafx:run
+```bash
+mvn compile javafx:run
+```
 
-Tested with openjdk 21.0.5 2024-10-15 LTS.
+## How to build a distributable package
+
+```bash
+mvn clean package
+```
+
+This creates an executable JAR file in the `target` directory.
+
+## Requirements
+
+- Java 8 or higher
+- Maven for building
+- Tested with OpenJDK 21.0.5 2024-10-15 LTS
+
+## Usage
+
+1. Start the application using the run command above
+2. Select two archive files using either:
+   - The "Select" buttons to open file dialogs
+   - Drag and drop files onto the designated areas in the UI
+3. View the comparison results in the main table, which shows:
+   - File entries from both archives
+   - Status of each entry (New, Removed, Modified, Same)
+   - Size differences where applicable
+4. Use the menu to clear the current comparison or access additional options
+
+---
+
+*Originally exported from code.google.com/p/fx-comparer*
