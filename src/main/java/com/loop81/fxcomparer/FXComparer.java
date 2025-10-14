@@ -6,15 +6,14 @@ package com.loop81.fxcomparer;
  * See the file license.txt for copying permission.
  */
 
-import java.util.ResourceBundle;
-
 import com.loop81.fxcomparer.utils.MessageBundle;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.ResourceBundle;
 
 /**
  * Main class for the whole application. Will setup the {@link MessageBundle} and initiate the application by loading

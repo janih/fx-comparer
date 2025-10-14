@@ -6,8 +6,7 @@ package com.loop81.fxcomparer.utils;
  * See the file license.txt for copying permission.
  */
 
-import java.io.IOException;
-
+import com.loop81.fxcomparer.FXComparer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import com.loop81.fxcomparer.FXComparer;
+import java.io.IOException;
 
 /**
  * The base for all dialogs within the application. When the dialog is created a basic stage centered in

@@ -8,11 +8,11 @@ copying permission. -->
 
     <groupId>com.loop81</groupId>
     <artifactId>fxcomparer</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <name>FXComparer</name>
-    <url>http://www.loop81.com</url>
+    <url>https://github.com/janih/fx-comparer</url>
 
     <organization>
         <name>loop81</name>

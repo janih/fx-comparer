@@ -6,33 +6,6 @@ package com.loop81.fxcomparer;
  * See the file license.txt for copying permission.
  */
 
-import java.util.Comparator;
-
-import javafx.application.Platform;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Window;
-import javafx.util.Callback;
-
-import org.apache.commons.io.FileUtils;
-
 import com.loop81.fxcomparer.comparer.ArchiveException;
 import com.loop81.fxcomparer.comparer.ComparableArchive;
 import com.loop81.fxcomparer.comparer.Comparer;
@@ -40,6 +13,28 @@ import com.loop81.fxcomparer.comparer.ComparisonResult;
 import com.loop81.fxcomparer.comparer.ComparisonResult.ComparisonEntry;
 import com.loop81.fxcomparer.utils.MessageBundle;
 import com.loop81.fxcomparer.utils.VersionProvider;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Window;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * The {@link FXComparerController} is defined as the controller in the FXML <i>/src/main/resources/fxml/layout.fxml</i> 
@@ -100,6 +95,7 @@ public class FXComparerController {
 		labelVersion.setText(versionProvider.getVersion());
 		initiateTable();
 		initiateDragNDropp();
+		initiateTableClickHandler();
 	}
 	
 	/** 
@@ -109,99 +105,130 @@ public class FXComparerController {
 	private void initiateTable() {
 		columnName.prefWidthProperty().bind(compareTable.widthProperty().divide(5).multiply(3));
 		columnName.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<ComparisonEntry, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<ComparisonEntry, String> cell) {
-				return new SimpleStringProperty(cell.getValue().getOriginalEntry().getEntryName());
-			}
-		});
+                cell -> new SimpleStringProperty(cell.getValue().getOriginalEntry().getEntryName()));
 		
 		columnState.prefWidthProperty().bind(compareTable.widthProperty().divide(5));
 		columnState.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<ComparisonEntry,String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<ComparisonEntry, String> cell) {
-				return new SimpleObjectProperty<>(MessageBundle.getString(
-						"result.state." + cell.getValue().getChangeState().toString().toLowerCase()));
-			}
-		});
+                cell -> new SimpleObjectProperty<>(MessageBundle.getString(
+                        "result.state." + cell.getValue().getChangeState().toString().toLowerCase())));
 		
 		columnChange.prefWidthProperty().bind(compareTable.widthProperty().divide(5));
-		columnChange.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ComparisonEntry, 
-				ChangeWrapper>, ObservableValue<ChangeWrapper>>() {
-			@Override
-			public ObservableValue<ChangeWrapper> call(CellDataFeatures<ComparisonEntry, ChangeWrapper> cell) {
-				long sizeChange = cell.getValue().getSizeChange();
-				if (sizeChange == 0) {
-					return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper());
-				} else if (sizeChange == Long.MIN_VALUE) { 
-					return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
-							MessageBundle.getString("general.not_avalible"), 0));
-				} else {
-					return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
-							convertdifferenceToReadableString(sizeChange), sizeChange));
-				}
-			}
-		});
-		columnChange.setComparator(new Comparator<ChangeWrapper>() {
-			@Override
-			public int compare(ChangeWrapper wrapper1, ChangeWrapper wrapper2) {
-				return wrapper1.compareTo(wrapper2);
-			}
-		});
+		columnChange.setCellValueFactory(cell -> {
+            long sizeChange = cell.getValue().getSizeChange();
+            if (sizeChange == 0) {
+                return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper());
+            } else if (sizeChange == Long.MIN_VALUE) {
+                return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
+                        MessageBundle.getString("general.not_avalible"), 0));
+            } else {
+                return new SimpleObjectProperty<ChangeWrapper>(new ChangeWrapper(
+                        convertdifferenceToReadableString(sizeChange), sizeChange));
+            }
+        });
+		columnChange.setComparator((wrapper1, wrapper2) -> wrapper1.compareTo(wrapper2));
 	}
 	
 	/** Enabled drag & drop support on the anchor-panels for the file selections. */
 	private void initiateDragNDropp() {
-		anchorPaneDropFile1.setOnDragOver(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
-					event.acceptTransferModes(TransferMode.COPY);
-				} else {
-					event.consume();
-				}
-			}
-		});
+		anchorPaneDropFile1.setOnDragOver(event -> {
+            if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
+                event.acceptTransferModes(TransferMode.COPY);
+            } else {
+                event.consume();
+            }
+        });
 		
-		anchorPaneDropFile1.setOnDragDropped(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
-					try {
-						archive1 = new ComparableArchive(event.getDragboard().getFiles().get(0));
-						handleFile(archive1, textFieldArchive1, labelArchive1Info);
-					} catch (ArchiveException e) {
-						new AlertDialog(MessageBundle.getString("exceptions.archive.open")).show();
+		anchorPaneDropFile1.setOnDragDropped(event -> {
+            if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
+                try {
+                    archive1 = new ComparableArchive(event.getDragboard().getFiles().get(0));
+                    handleFile(archive1, textFieldArchive1, labelArchive1Info);
+                } catch (ArchiveException e) {
+                    new AlertDialog(MessageBundle.getString("exceptions.archive.open")).show();
+                }
+            }
+        });
+		
+		anchorPaneDropFile2.setOnDragOver(event -> {
+            if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
+                event.acceptTransferModes(TransferMode.COPY);
+            } else {
+                event.consume();
+            }
+        });
+		
+		anchorPaneDropFile2.setOnDragDropped(event -> {
+            if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
+                try {
+                    archive2 = new ComparableArchive(event.getDragboard().getFiles().get(0));
+                    handleFile(archive2, textFieldArchive2, labelArchive2Info);
+                } catch (ArchiveException e) {
+                    new AlertDialog(MessageBundle.getString("exceptions.archive.open")).show();
+                }
+            }
+        });
+	}
+	
+	/** Enable click handler on the comparison table to show diffs for modified entries */
+	private void initiateTableClickHandler() {
+		compareTable.setRowFactory(tv -> {
+			TableRow<ComparisonEntry> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) { // Double click
+					ComparisonEntry entry = row.getItem();
+					if (entry.isDiffAvailable()) { // Only for MODIFIED entries
+						showDiffForEntry(entry);
 					}
 				}
-			}
+			});
+			return row;
 		});
+	}
+	
+	/** Show the diff for the given modified entry */
+	private void showDiffForEntry(ComparisonEntry entry) {
+		try {
+			// Extract the file from both archives to temporary files
+			File tempFile1 = extractFileFromArchive(archive1, entry.getOriginalEntry().getEntryName());
+			File tempFile2 = extractFileFromArchive(archive2, entry.getOriginalEntry().getEntryName());
+			
+			if (tempFile1 != null && tempFile2 != null) {
+				// Show the diff dialog
+				DiffViewerDialog diffDialog = new DiffViewerDialog();
+				diffDialog.showDiff(tempFile1, tempFile2, entry.getOriginalEntry().getEntryName());
+			} else {
+				new AlertDialog("Could not extract files for diff comparison.").show();
+			}
+		} catch (Exception e) {
+			new AlertDialog("Error showing diff: " + e.getMessage()).show();
+			e.printStackTrace();
+		}
+	}
+	
+	/** Extract a specific file from an archive to a temporary file */
+	private File extractFileFromArchive(ComparableArchive archive, String entryName) throws IOException {
+		// Create a temporary file
+		File tempFile = File.createTempFile("fxcomparer_", "_" + new File(entryName).getName());
+		tempFile.deleteOnExit();
 		
-		anchorPaneDropFile2.setOnDragOver(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
-					event.acceptTransferModes(TransferMode.COPY);
-				} else {
-					event.consume();
-				}
+		// This will need to extract the actual file content from the archive
+		// Since the ComparableArchive class doesn't currently support extraction,
+		// we'll need to read the archive directly
+		java.util.zip.ZipFile zipFile = new java.util.zip.ZipFile(archive.getPath());
+		try {
+			java.util.zip.ZipEntry zipEntry = zipFile.getEntry(entryName);
+			if (zipEntry != null) {
+				java.io.InputStream inputStream = zipFile.getInputStream(zipEntry);
+				java.nio.file.Files.copy(inputStream, tempFile.toPath(), 
+					java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+				inputStream.close();
+				return tempFile;
 			}
-		});
+		} finally {
+			zipFile.close();
+		}
 		
-		anchorPaneDropFile2.setOnDragDropped(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				if (event.getDragboard().hasFiles() && comparer.isFileSupported(event.getDragboard().getFiles().get(0))) {
-					try {
-						archive2 = new ComparableArchive(event.getDragboard().getFiles().get(0));
-						handleFile(archive2, textFieldArchive2, labelArchive2Info);
-					} catch (ArchiveException e) {
-						new AlertDialog(MessageBundle.getString("exceptions.archive.open")).show();
-					}
-				}
-			}
-		});
+		return null;
 	}
 	
 	/** Called from the "Exit" menu item, will close the application. */

@@ -1,11 +1,11 @@
 package com.loop81.fxcomparer.comparer;
 
+import com.loop81.fxcomparer.comparer.ComparableArchive.ComparableEntry;
+import com.loop81.fxcomparer.comparer.ComparisonResult.ComparisonEntry.ChangeState;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.loop81.fxcomparer.comparer.ComparableArchive.ComparableEntry;
-import com.loop81.fxcomparer.comparer.ComparisonResult.ComparisonEntry.ChangeState;
 
 public class ComparisonResult {
 
@@ -72,15 +72,40 @@ public class ComparisonResult {
 		public boolean isFolder() {
 			return originalEntry.isFolder();
 		}
+		
+		/**
+		 * Check if diff view is available for this entry.
+		 * Diff view is only available for MODIFIED entries.
+		 */
+		public boolean isDiffAvailable() {
+			return changeState == ChangeState.MODIFIED;
+		}
 
-		public static enum ChangeState {
+		public enum ChangeState {
 			REMOVED,
 			NEW,
 			MODIFIED,
 			SAME,
 			UNCOMPARABLE
 		}
-		
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (!(obj instanceof ComparisonEntry)) {
+                return false;
+            }
+            return compareTo((ComparisonEntry) obj) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            ComparableEntry oe = getOriginalEntry();
+            return oe != null ? oe.hashCode() : 0;
+        }
+
 		@Override
 		public int compareTo(ComparisonEntry otherEntry) {
 			return getOriginalEntry().compareTo(otherEntry.getOriginalEntry());
