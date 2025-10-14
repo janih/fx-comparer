@@ -6,13 +6,10 @@ package com.loop81.fxcomparer;
  * See the file license.txt for copying permission.
  */
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-
 import com.loop81.fxcomparer.utils.AbstractDialogWindow;
 import com.loop81.fxcomparer.utils.MessageBundle;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 /**
  * The alert dialog will create a pop-up window with a title telling the user that something went wrong. In the dialog
@@ -37,13 +34,10 @@ public class AlertDialog extends AbstractDialogWindow {
 		((Label) dialogStage.getScene().lookup("#errorText")).setText(message);
 		
 		// Handle the click on the OK-button, simply close the dialog.
-		((Button) dialogStage.getScene().lookup(".button")).setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				dialogStage.close();
-				event.consume();
-			}
-		});
+		((Button) dialogStage.getScene().lookup(".button")).setOnAction(event -> {
+            dialogStage.close();
+            event.consume();
+        });
 	}
 	
 	@Override

@@ -6,13 +6,12 @@ package com.loop81.fxcomparer;
  * See the file license.txt for copying permission.
  */
 
-import java.io.IOException;
-
+import com.loop81.fxcomparer.utils.AbstractDialogWindow;
 import javafx.scene.control.TextArea;
-
 import org.apache.commons.io.IOUtils;
 
-import com.loop81.fxcomparer.utils.AbstractDialogWindow;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The about dialog will show a dialog with some build information and the license for the applicaiton. The information
@@ -32,8 +31,8 @@ public class AboutDialog extends AbstractDialogWindow {
 		super(DIALOG_WIDTH, DIALOG_HEIGHT);
 		
 		try {
-			String aboutText = IOUtils.toString(getClass().getResourceAsStream("/about.txt"), "UTF-8"); 
-			aboutText += IOUtils.toString(getClass().getResourceAsStream("/license.txt"), "UTF-8");  
+			String aboutText = IOUtils.toString(getClass().getResourceAsStream("/about.txt"), StandardCharsets.UTF_8);
+			aboutText += IOUtils.toString(getClass().getResourceAsStream("/license.txt"), StandardCharsets.UTF_8);
 			((TextArea) dialogStage.getScene().lookup(".text-area")).setText(aboutText);
 		} catch (IOException e) {
 			// Will never happen since the about.txt and license.txt should always be there.
